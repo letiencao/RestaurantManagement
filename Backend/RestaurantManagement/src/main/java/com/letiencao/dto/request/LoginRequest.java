@@ -1,0 +1,20 @@
+package com.letiencao.dto.request;
+
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class LoginRequest {
+	@NotEmpty(message = "Email must not be empty")
+	@Email(message = "Your input is not a email address")
+	private String email;
+	@NotEmpty(message = "Password must not be empty")
+	@Size(min = 6,message = "Password must be greater than 5 characters")
+	private String password;
+}
