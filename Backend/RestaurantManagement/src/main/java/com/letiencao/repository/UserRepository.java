@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	@Query(value = "SELECT * FROM user u WHERE u.citizen_id = ?1 AND u.status = "
 			+ ConstantValues.AVAILABLE, nativeQuery = true)
 	UserEntity findByCitizenId(String citizenId);
+	@Query(value = "SELECT * FROM user u WHERE u.id = ?1 AND u.status = "
+			+ ConstantValues.AVAILABLE, nativeQuery = true)
+	UserEntity findById(int id);
 
 	@Query(value = "SELECT * FROM user u WHERE u.email = ?1 AND u.status = "
 			+ ConstantValues.AVAILABLE, nativeQuery = true)
