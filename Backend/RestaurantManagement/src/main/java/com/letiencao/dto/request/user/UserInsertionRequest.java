@@ -15,7 +15,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class UserInsertionRequest {
 
 	@NotEmpty(message = "First name must not be empty")
