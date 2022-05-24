@@ -1,6 +1,5 @@
 package com.letiencao.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +30,5 @@ public class ReservationDetailsEntity {
 	@ManyToOne
 	@JoinColumn(name = "table_seating_id")
 	private TableSeatingEntity tableSeatingEntity;
-	@Column(name = "case_id", columnDefinition = "int")
-	private int caseId;
 
 }

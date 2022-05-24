@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.letiencao.constant.ConstantValues;
 import com.letiencao.converter.ReservationConverter;
 import com.letiencao.converter.ReservationDetailsConverter;
+import com.letiencao.dto.request.reservation.AssignTableRequest;
 import com.letiencao.dto.request.reservation.ReservationInsertionRequest;
 import com.letiencao.dto.request.reservationdetails.ReservationDetailsInsertionRequest;
 import com.letiencao.dto.response.HTTPResponse;
@@ -18,6 +19,7 @@ import com.letiencao.dto.response.reservation.ReservationDTO;
 import com.letiencao.entity.CustomerEntity;
 import com.letiencao.entity.ReservationDetailsEntity;
 import com.letiencao.entity.ReservationEntity;
+import com.letiencao.entity.TableSeatingEntity;
 import com.letiencao.enumerated.ReservationEnum;
 import com.letiencao.repository.CustomerRepository;
 import com.letiencao.repository.ReservationDetailsRepository;
@@ -43,76 +45,50 @@ public class ReservationService implements IReservationService {
 
 	@Override
 	public HTTPResponse<ReservationDTO> insertOne(ReservationInsertionRequest reservationInsertionRequest) {
-		// Kiem tra xem ban do da duoc dat chua thong qua
-		// expectedDate,tableSeatingId,caseId
-		// Neu ma tat ca deu OK thi insert
+		// Kiem tra xem ban do da duoc dat chua thong qua status
 		try {
 
 			CustomerEntity customerEntity = customerRepository.findById(reservationInsertionRequest.getCustomerId());
-			List<Integer> tableSeatingIds = reservationInsertionRequest.getTableSeatingIds();
-			if (customerEntity != null && isValidTableSeating(reservationInsertionRequest.getTableSeatingIds())
-					&& isValidExpectedDate(reservationInsertionRequest.getExpectedDate())
-					&& checkValidReservation(reservationInsertionRequest) == tableSeatingIds.size()) {
+			if (customerEntity != null) {
 				// Set full data for reservationEntity
 				ReservationEntity reservationEntity = reservationConverter.toEntity(reservationInsertionRequest);
 				reservationEntity.setCustomerEntity(customerEntity);
 				reservationEntity.setExpectedDate(reservationInsertionRequest.getExpectedDate());
+				reservationEntity.setStatus(ConstantValues.CONFIRMED_RESERVATION);
 				// insert reservationEntity into database
 				reservationEntity = reservationRepository.save(reservationEntity);
-
-				for (int i = 0; i < tableSeatingIds.size(); i++) {
-					// Set full data for reservationDetailsInsertionRequest
-					ReservationDetailsInsertionRequest reservationDetailsInsertionRequest = new ReservationDetailsInsertionRequest(
-							tableSeatingIds.get(i), reservationEntity.getId(), reservationInsertionRequest.getCaseId(),
-							reservationInsertionRequest.getExpectedDate());
-					// convert reservationDetailsInsertionRequest to reservationDetailsEntity
-					ReservationDetailsEntity reservationDetailsEntity = reservationDetailsConverter
-							.toEntity(reservationDetailsInsertionRequest);
-					// Set full data for reservationDetailsEntity
-					reservationDetailsEntity
-							.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)));
-					reservationDetailsEntity.setReservationEntity(reservationEntity);
-					// Insert reservationDetailsEntity into database
-					reservationDetailsRepository.save(reservationDetailsEntity);
-
-				}
-				return new HTTPResponse<ReservationDTO>("The new reservation has been inserted", ConstantValues.CODE_201, reservationConverter.toDTO(reservationEntity));
-			} else if (customerEntity == null) {
-				return new HTTPResponse<ReservationDTO>(
-						"The customer has not existed! Add this customer into database now!", ConstantValues.CODE_200, null);
-			} else if (!isValidTableSeating(reservationInsertionRequest.getTableSeatingIds())) {
-				return new HTTPResponse<ReservationDTO>("Table has not existed.", ConstantValues.CODE_200, null);
-			} else if (!isValidExpectedDate(reservationInsertionRequest.getExpectedDate())) {
-				return new HTTPResponse<ReservationDTO>("Expected Date must be greater than or equal long date today!",
-						ConstantValues.CODE_200, null);
+				return new HTTPResponse<ReservationDTO>("Them 1 ban ghi dat ban thanh cong", ConstantValues.CODE_201,
+						reservationConverter.toDTO(reservationEntity));
 			}
 		} catch (Exception e) {
 			System.out.println("Exception ReservationService Insert: " + e.getMessage());
 		}
-
-		return new HTTPResponse<ReservationDTO>("This case of this table has been reserved", ConstantValues.CODE_200, null);
-
+		return new HTTPResponse<ReservationDTO>("Thong tin khach hang chua ton tai!", ConstantValues.CODE_200, null);
 	}
 
-	private int checkValidReservation(ReservationInsertionRequest reservationInsertionRequest) {
+	// Kiem tra tat ca cac ban phai free thi ok
+	private int checkValidReservation(List<Integer> tableSeatingIds) {
 		int check = 0;
-		List<Integer> tableSeatingIds = reservationInsertionRequest.getTableSeatingIds();
 		for (int i = 0; i < tableSeatingIds.size(); i++) {
-			ReservationDetailsEntity reservationDetailsEntity = reservationDetailsRepository
-					.findExistedReservationDetails(tableSeatingIds.get(i),
-							reservationInsertionRequest.getExpectedDate(), reservationInsertionRequest.getCaseId());
-			// Neu reservation details == null || != null nhung da bi cancelled thi OK
-			if (reservationDetailsEntity == null || (reservationDetailsEntity != null
-					&& reservationRepository.findById(reservationDetailsEntity.getReservationEntity().getId())
-							.getStatus() == ReservationEnum.CANCELED.ordinal() + 1)) {
-
-				// OK
+//			ReservationDetailsEntity reservationDetailsEntity = reservationDetailsRepository
+//					.findExistedReservationDetails(tableSeatingIds.get(i),
+//							reservationInsertionRequest.getExpectedDate(), reservationInsertionRequest.getCaseId());
+//			// Neu reservation details == null || != null nhung da bi cancelled thi OK
+//			if (reservationDetailsEntity == null || (reservationDetailsEntity != null
+//					&& reservationRepository.findById(reservationDetailsEntity.getReservationEntity().getId())
+//							.getStatus() == ReservationEnum.CANCELED.ordinal() + 1)) {
+//
+//				// OK
+//				check++;
+//			}
+			if (tableSeatingRepository.findById(tableSeatingIds.get(i)).getStatus() == ConstantValues.FREE_TABLE) {
 				check++;
 			}
 		}
 		return check;
 	}
 
+	// Kiem tra cac tables co ton tai chua ?
 	public boolean isValidTableSeating(List<Integer> tableSeatingIds) {
 		for (int i = 0; i < tableSeatingIds.size(); i++) {
 			if (tableSeatingRepository.findById(tableSeatingIds.get(i)) == null) {
@@ -122,25 +98,54 @@ public class ReservationService implements IReservationService {
 		return true;
 	}
 
-	public boolean isValidExpectedDate(Long expectedDate) {
-		try {
-			SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-			Date date = (Date) dtf.parse(dtf.format(System.currentTimeMillis()));
-			long currentLongDate = date.getTime();
-			if (expectedDate >= currentLongDate) {
-				return true;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-		return false;
-	}
+//	public boolean isValidExpectedDate(Long expectedDate) {
+//		try {
+//			SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+//			Date date = (Date) dtf.parse(dtf.format(System.currentTimeMillis()));
+//			long currentLongDate = date.getTime();
+//			if (expectedDate >= currentLongDate) {
+//				return true;
+//			}
+//		} catch (Exception e) {
+//			return false;
+//		}
+//		return false;
+//	}
 
 	public ReservationEntity setDataForReservationEntity(ReservationEntity reservationEntity) {
 		reservationEntity.setCreatedBy(ConstantValues.CREATED_BY);
 		reservationEntity.setCreatedDate(System.currentTimeMillis());
 		reservationEntity.setStatus(ReservationEnum.CONFIRMED.ordinal() + 1);
 		return reservationEntity;
+	}
+
+	@Override
+	public HTTPResponse<Boolean> assignTable(AssignTableRequest assignTableRequest) {
+		List<Integer> tableSeatingIds = assignTableRequest.getTableSeatingIds();
+		if (isValidTableSeating(tableSeatingIds)
+				&& reservationRepository.findById(assignTableRequest.getReservationId()) != null
+				&& checkValidReservation(tableSeatingIds) == tableSeatingIds.size()) {
+
+			for (int i = 0; i < tableSeatingIds.size(); i++) {
+				//update status of table
+				TableSeatingEntity tableSeatingEntity = tableSeatingRepository.findById(tableSeatingIds.get(i));
+				tableSeatingEntity.setModifiedBy(ConstantValues.CREATED_BY);
+				tableSeatingEntity.setModifiedDate(System.currentTimeMillis());
+				tableSeatingEntity.setStatus(ConstantValues.RESERVED_TABLE);
+				tableSeatingRepository.save(tableSeatingEntity);
+				//insert reservation details
+				ReservationDetailsEntity reservationDetailsEntity = new ReservationDetailsEntity();
+				reservationDetailsEntity.setReservationEntity(reservationRepository.findById(assignTableRequest.getReservationId()));
+				reservationDetailsEntity.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)));
+				reservationDetailsEntity = reservationDetailsRepository.save(reservationDetailsEntity);
+				
+			}
+			return new HTTPResponse<Boolean>("OK", ConstantValues.CODE_201, true);
+
+		}else {
+			return new HTTPResponse<Boolean>("Failed", ConstantValues.CODE_200, false);
+		}
+//		return null;
 	}
 
 }

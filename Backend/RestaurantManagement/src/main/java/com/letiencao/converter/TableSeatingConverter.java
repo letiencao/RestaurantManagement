@@ -22,7 +22,7 @@ public class TableSeatingConverter {
 		tableSeatingDTO.setCreatedDate(tableSeatingEntity.getCreatedDate());
 		tableSeatingDTO.setModifiedBy(tableSeatingEntity.getModifiedBy());
 		tableSeatingDTO.setModifiedDate(tableSeatingEntity.getModifiedDate());
-		tableSeatingDTO.setDeleted(tableSeatingEntity.isDeleted());
+		tableSeatingDTO.setStatus(tableSeatingEntity.getStatus());
 		tableSeatingDTO.setName(tableSeatingEntity.getName());
 //		tableSeatingDTO.setMaximumSeats(tableSeatingEntity.getMaximumSeats());
 //		tableSeatingDTO.setReservationEntities(tableSeatingEntity.getReservationEntities());

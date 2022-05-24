@@ -16,10 +16,12 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.letiencao.dto.request.customer.CustomerInsertionRequest;
 import com.letiencao.dto.request.order.OrderInsertionRequest;
+import com.letiencao.dto.request.reservation.AssignTableRequest;
 import com.letiencao.dto.request.reservation.ReservationInsertionRequest;
 import com.letiencao.dto.request.role.RoleInsertionRequest;
 import com.letiencao.dto.request.tableseating.TableSeatingInsertionRequest;
 import com.letiencao.dto.request.user.UserInsertionRequest;
+import com.letiencao.dto.response.HTTPResponse;
 import com.letiencao.repository.UserRepository;
 import com.letiencao.service.ICustomerService;
 import com.letiencao.service.IOrderService;
@@ -182,11 +184,11 @@ public class Application {
 			list.add(2);
 			ReservationInsertionRequest reservationInsertionRequest = new ReservationInsertionRequest();
 			reservationInsertionRequest.setCustomerId(1);
-			reservationInsertionRequest.setTableSeatingIds(list);
+//			reservationInsertionRequest.setTableSeatingIds(list);
 			reservationInsertionRequest.setDeposit(new BigDecimal(500000));
 			reservationInsertionRequest.setNote("");
 			reservationInsertionRequest.setExpectedDate(1651251600000L);
-			reservationInsertionRequest.setCaseId(1);
+//			reservationInsertionRequest.setCaseId(1);
 			reservationService.insertOne(reservationInsertionRequest);
 			List<Integer> list1 = new ArrayList<Integer>();
 			list1.add(1);
@@ -194,12 +196,21 @@ public class Application {
 			ReservationInsertionRequest reservationInsertionRequest1 = new ReservationInsertionRequest();
 
 			reservationInsertionRequest.setCustomerId(1);
-			reservationInsertionRequest.setTableSeatingIds(list1);
+//			reservationInsertionRequest.setTableSeatingIds(list1);
 			reservationInsertionRequest.setDeposit(new BigDecimal(500000));
 			reservationInsertionRequest.setNote("");
 			reservationInsertionRequest.setExpectedDate(1651251600000L);
-			reservationInsertionRequest.setCaseId(2);
+//			reservationInsertionRequest.setCaseId(2);
 			reservationService.insertOne(reservationInsertionRequest1);
+			
+			AssignTableRequest assignTableRequest = new AssignTableRequest();
+			assignTableRequest.setReservationId(1);
+			List<Integer> integers = new ArrayList<Integer>();
+			integers.add(1);
+			integers.add(2);
+			assignTableRequest.setTableSeatingIds(integers);
+			reservationService.assignTable(assignTableRequest);
+			System.out.println("KHÔNG TRY CATCH");
 
 //			System.out.println("Today is " + longDate);
 //			System.out.println("Hello = "+System.currentTimeMillis());
