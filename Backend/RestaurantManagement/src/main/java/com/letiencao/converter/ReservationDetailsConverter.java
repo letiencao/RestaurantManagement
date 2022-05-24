@@ -16,7 +16,7 @@ public class ReservationDetailsConverter {
 //		reservationDetailsEntity.setModifiedBy(reservationDetailsInsertionRequest.getModifiedBy());
 //		reservationDetailsEntity.setStatus(reservationDetailsInsertionRequest.getStatus());
 		
-		reservationDetailsEntity.setCaseId(reservationDetailsInsertionRequest.getCaseId());
+//		reservationDetailsEntity.setCaseId(reservationDetailsInsertionRequest.getCaseId());
 		return reservationDetailsEntity;
 	}
 }

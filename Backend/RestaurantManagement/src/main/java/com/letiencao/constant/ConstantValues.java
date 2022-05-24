@@ -12,7 +12,7 @@ public class ConstantValues {
 	public static final int FREE_TABLE = 1;
 	public static final int RESERVED_TABLE = 2;
 	public static final int OCCUPIED_TABLE = 3;
-	public static final int OTHER = 4;
+		
 
 	// Reservation Status
 	public static final int CONFIRMED_RESERVATION = 1;

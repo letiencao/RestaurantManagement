@@ -28,7 +28,7 @@ public class TableSeatingService implements ITableSeatingService {
 			TableSeatingEntity tableSeatingEntity = tableSeatingConverter.toEntity(tableSeatingInsertionRequest);
 			tableSeatingEntity.setCreatedBy(ConstantValues.CREATED_BY);
 			tableSeatingEntity.setCreatedDate(System.currentTimeMillis());
-			tableSeatingEntity.setDeleted(false);
+			tableSeatingEntity.setStatus(ConstantValues.FREE_TABLE);
 
 			return new HTTPResponse<TableSeatingDTO>("The new table seating has been inserted", ConstantValues.CODE_201,
 					tableSeatingConverter.toDTO(tableSeatingRepository.save(tableSeatingEntity)));
