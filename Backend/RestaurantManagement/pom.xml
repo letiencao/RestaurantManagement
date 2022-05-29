@@ -5,7 +5,7 @@
 	<groupId>com.bk</groupId>
 	<artifactId>RestaurantManagement</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<!-- De maven hieu day la project spring boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>

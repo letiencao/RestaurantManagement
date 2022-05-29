@@ -1,13 +1,7 @@
-# syntax=docker/dockerfile:1
+FROM openjdk:8
 
-FROM openjdk:16-alpine3.13
+WORKDIR /RestaurantManagement
 
-WORKDIR /app
+COPY ./target/RestaurantManagement-1.0.jar .
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
+ENTRYPOINT ["java", "-jar", "RestaurantManagement-1.0.jar"]
