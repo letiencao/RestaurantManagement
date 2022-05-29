@@ -33,8 +33,9 @@ public class CustomerAPI {
 
 	@PostMapping("/search-by-name")
 	public ResponseEntity<List<CustomerDTO>> searchByName(@Valid @RequestBody SearchByNameRequest searchByNameRequest) {
-		List<CustomerDTO> customers = customerService.searchByName(searchByNameRequest.getName());
-		return new ResponseEntity<List<CustomerDTO>>(customers, HttpStatus.OK);
+//		List<CustomerDTO> customers = customerService.searchByName(searchByNameRequest.getName());
+//		return new ResponseEntity<List<CustomerDTO>>(customers, HttpStatus.OK);
+		return null;
 	}
 
 }

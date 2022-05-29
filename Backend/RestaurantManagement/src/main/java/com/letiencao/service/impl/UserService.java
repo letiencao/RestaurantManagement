@@ -143,12 +143,12 @@ public class UserService implements IUserService, UserDetailsService {
 	@Override
 	public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
 		// token request must not be expired
-		String refreshToken = refreshTokenRequest.getRefreshToken();
-		if (jwtProvider.validateToken(refreshToken)) {
-			String email = jwtProvider.getEmailFromJWT(refreshToken);
-			return findByEmail(email) != null ? new LoginResponse(jwtProvider.generateAccessToken(email), refreshToken)
-					: null;
-		}
+//		String refreshToken = refreshTokenRequest.getRefreshToken();
+//		if (jwtProvider.validateToken(refreshToken)) {
+//			String email = jwtProvider.getEmailFromJWT(refreshToken);
+//			return findByEmail(email) != null ? new LoginResponse(jwtProvider.generateAccessToken(email), refreshToken)
+//					: null;
+//		}
 //		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByToken(refreshToken);
 //		if (refreshTokenEntity != null) {
 //			// Kiem tra may con hay khong ? Neu con,bo cap cho may 1 access token moi,con
