@@ -1,19 +1,12 @@
 package com.letiencao.security;
 
-import java.util.Date;
-
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
 
 @Component
-@Slf4j
+
 public class JwtProvider {
 	// Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
 	private final String JWT_SECRET = "letiencao28072000";
@@ -51,13 +44,13 @@ public class JwtProvider {
 			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
 			return true;
 		} catch (MalformedJwtException ex) {
-			log.error("Invalid JWT token");
+			ex.getMessage();
 		} catch (ExpiredJwtException ex) {
-			log.error("Expired JWT token");
+			ex.getMessage();
 		} catch (UnsupportedJwtException ex) {
-			log.error("Unsupported JWT token");
+			ex.getMessage();
 		} catch (IllegalArgumentException ex) {
-			log.error("JWT claims string is empty.");
+			ex.getMessage();
 		}
 		return false;
 	}

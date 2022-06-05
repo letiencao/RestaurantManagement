@@ -1,17 +1,14 @@
 package com.letiencao.dto;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.letiencao.entity.RoleEntity;
+import com.letiencao.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.letiencao.entity.RoleEntity;
-import com.letiencao.entity.UserEntity;
-
-import lombok.AllArgsConstructor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 public class UserDetailsImpl implements UserDetails{

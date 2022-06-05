@@ -1,11 +1,8 @@
 package com.letiencao.dto.response.reservation;
 
-import java.math.BigDecimal;
-
 import com.letiencao.dto.BaseDTO;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.math.BigDecimal;
 
 
 public class ReservationDTO extends BaseDTO {

@@ -1,12 +1,8 @@
 package com.letiencao.dto.request.order;
 
-import java.util.List;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 
 public class OrderInsertionRequest {

@@ -2,8 +2,7 @@ package com.letiencao.dto.response.order;
 
 import com.letiencao.dto.BaseDTO;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 
 public class OrderDTO extends BaseDTO{

@@ -1,14 +1,9 @@
 package com.letiencao.entity;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "menu_item")

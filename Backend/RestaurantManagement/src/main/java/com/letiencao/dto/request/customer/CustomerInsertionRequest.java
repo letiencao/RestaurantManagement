@@ -1,11 +1,8 @@
 package com.letiencao.dto.request.customer;
 
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.validation.constraints.Pattern;
 
 
 public class CustomerInsertionRequest {

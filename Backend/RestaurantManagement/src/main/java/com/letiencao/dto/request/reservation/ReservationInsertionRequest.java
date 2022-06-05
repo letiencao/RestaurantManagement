@@ -1,13 +1,7 @@
 package com.letiencao.dto.request.reservation;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import javax.validation.constraints.Min;
-
-import lombok.Getter;
-import lombok.Setter;
-
+import java.math.BigDecimal;
 
 
 public class ReservationInsertionRequest {

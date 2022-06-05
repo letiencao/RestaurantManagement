@@ -2,10 +2,6 @@ package com.letiencao.dto.response.role;
 
 import com.letiencao.dto.BaseDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class RoleDTO extends BaseDTO {
 	public RoleDTO() {

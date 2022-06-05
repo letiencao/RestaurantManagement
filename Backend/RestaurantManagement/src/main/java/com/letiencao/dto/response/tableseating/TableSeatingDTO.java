@@ -2,9 +2,6 @@ package com.letiencao.dto.response.tableseating;
 
 import com.letiencao.dto.BaseDTO;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class TableSeatingDTO extends BaseDTO{
 	private int id;
 	private String name;

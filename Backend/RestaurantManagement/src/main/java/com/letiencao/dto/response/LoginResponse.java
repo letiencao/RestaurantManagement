@@ -1,8 +1,5 @@
 package com.letiencao.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class LoginResponse {
 

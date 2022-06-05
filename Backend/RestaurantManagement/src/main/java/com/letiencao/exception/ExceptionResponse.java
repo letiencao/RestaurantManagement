@@ -2,10 +2,6 @@ package com.letiencao.exception;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class ExceptionResponse {
 	private Date timestamp;

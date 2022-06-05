@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import com.letiencao.dto.BaseDTO;
 
-import lombok.Getter;
-import lombok.Setter;
 
 public class MenuItemDTO extends BaseDTO{
 

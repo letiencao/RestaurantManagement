@@ -1,11 +1,8 @@
 package com.letiencao.dto.response.user;
 
-import java.util.List;
-
 import com.letiencao.dto.BaseDTO;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 
 public class UserDTO extends BaseDTO {

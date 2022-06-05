@@ -5,8 +5,6 @@ import java.util.List;
 import com.letiencao.dto.BaseDTO;
 import com.letiencao.dto.response.reservation.ReservationDTO;
 
-import lombok.Getter;
-import lombok.Setter;
 
 
 public class CustomerDTO extends BaseDTO {

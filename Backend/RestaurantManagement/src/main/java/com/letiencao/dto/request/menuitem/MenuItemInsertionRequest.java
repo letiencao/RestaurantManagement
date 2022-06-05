@@ -1,14 +1,9 @@
 package com.letiencao.dto.request.menuitem;
 
-import java.math.BigDecimal;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.stereotype.Service;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.math.BigDecimal;
 
 public class MenuItemInsertionRequest {
 	@NotEmpty(message = "Name must not be empty")

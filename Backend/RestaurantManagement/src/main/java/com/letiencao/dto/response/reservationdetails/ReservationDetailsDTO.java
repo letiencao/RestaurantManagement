@@ -2,10 +2,6 @@ package com.letiencao.dto.response.reservationdetails;
 
 import com.letiencao.dto.BaseDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class ReservationDetailsDTO extends BaseDTO {
 	private int tableSeatingId;

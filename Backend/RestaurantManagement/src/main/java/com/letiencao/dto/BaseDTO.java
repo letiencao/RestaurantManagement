@@ -1,8 +1,5 @@
 package com.letiencao.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 public class BaseDTO {
 	private int id;
