@@ -21,20 +21,6 @@ public class UserDetailsImpl implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;	
 	private UserEntity userEntity;
-	
-
-	public UserDetailsImpl(UserEntity userEntity) {
-		super();
-		this.userEntity = userEntity;
-	}
-
-	public UserEntity getUserEntity() {
-		return userEntity;
-	}
-
-	public void setUserEntity(UserEntity userEntity) {
-		this.userEntity = userEntity;
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -16,17 +16,4 @@ public class AssignTableRequest {
 	private int reservationId;
 	@Size(min = 1, message = "The size of list is zero")
 	private List<Integer> tableSeatingIds;
-	public int getReservationId() {
-		return reservationId;
-	}
-	public void setReservationId(int reservationId) {
-		this.reservationId = reservationId;
-	}
-	public List<Integer> getTableSeatingIds() {
-		return tableSeatingIds;
-	}
-	public void setTableSeatingIds(List<Integer> tableSeatingIds) {
-		this.tableSeatingIds = tableSeatingIds;
-	}
-	
 }

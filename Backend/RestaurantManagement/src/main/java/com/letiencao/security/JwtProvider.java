@@ -46,18 +46,19 @@ public class JwtProvider {
 		return claims.getSubject();
 	}
 
-	public boolean validateToken(String authToken) throws Exception {
+	public boolean validateToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
 			return true;
 		} catch (MalformedJwtException ex) {
-			throw new MalformedJwtException("Invalid JWT token");
+			log.error("Invalid JWT token");
 		} catch (ExpiredJwtException ex) {
-			throw new Exception("Expired JWT token");
+			log.error("Expired JWT token");
 		} catch (UnsupportedJwtException ex) {
-			throw new UnsupportedJwtException("Unsupported JWT token");
+			log.error("Unsupported JWT token");
 		} catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException("JWT claims string is empty.");
+			log.error("JWT claims string is empty.");
 		}
+		return false;
 	}
 }

@@ -15,11 +15,4 @@ public class RoleDTO extends BaseDTO {
 	}
 //	@NotEmpty(message = "Role name must not be empty")
 	private String name;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 }

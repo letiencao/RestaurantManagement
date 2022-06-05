@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 Built-By: alien
 Build-Jdk: 1.8.0
 Created-By: Maven Integration for Eclipse
-Main-Class:  com.letiencao.RestaurantManagementApplication
+Main-Class:  com.letiencao.Application
