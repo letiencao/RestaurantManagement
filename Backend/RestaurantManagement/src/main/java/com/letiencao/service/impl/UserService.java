@@ -16,11 +16,10 @@ import com.letiencao.constant.ConstantValues;
 import com.letiencao.converter.UserConverter;
 import com.letiencao.dto.UserDetailsImpl;
 import com.letiencao.dto.request.LoginRequest;
-import com.letiencao.dto.request.ResetPasswordRequest;
-import com.letiencao.dto.request.authentication.RefreshTokenRequest;
+
 import com.letiencao.dto.request.user.UserInsertionRequest;
 import com.letiencao.dto.response.LoginResponse;
-import com.letiencao.dto.response.SendCodeResponse;
+
 import com.letiencao.dto.response.user.UserDTO;
 import com.letiencao.entity.RoleEntity;
 import com.letiencao.entity.UserEntity;
@@ -140,15 +139,15 @@ public class UserService implements IUserService, UserDetailsService {
 		return new UserDetailsImpl(userRepository.findByEmail(email));
 	}
 
-	@Override
-	public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-		// token request must not be expired
-		String refreshToken = refreshTokenRequest.getRefreshToken();
-		if (jwtProvider.validateToken(refreshToken)) {
-			String email = jwtProvider.getEmailFromJWT(refreshToken);
-			return findByEmail(email) != null ? new LoginResponse(jwtProvider.generateAccessToken(email), refreshToken)
-					: null;
-		}
+//	@Override
+//	public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+//		// token request must not be expired
+//		String refreshToken = refreshTokenRequest.getRefreshToken();
+//		if (jwtProvider.validateToken(refreshToken)) {
+//			String email = jwtProvider.getEmailFromJWT(refreshToken);
+//			return findByEmail(email) != null ? new LoginResponse(jwtProvider.generateAccessToken(email), refreshToken)
+//					: null;
+//		}
 //		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByToken(refreshToken);
 //		if (refreshTokenEntity != null) {
 //			// Kiem tra may con hay khong ? Neu con,bo cap cho may 1 access token moi,con
@@ -163,16 +162,16 @@ public class UserService implements IUserService, UserDetailsService {
 //				return new LoginResponse(null, null, null, "Your token was expired.Login again");
 //			}
 //		}
-		return null;
-	}
+//		return null;
+//	}
 
 	// gui email de reset password -> luu vao bang refresh token 30s het han
 	/**
 	 * 1.Kiểm tra xem email truyền lên có trong db hay không? 2.Nếu có thì sinh code
 	 * ngẫu nhiên, lưu vào bảng refresh_token,hết hạn trong vòng 35s 3.Gửi code
 	 */
-	@Override
-	public SendCodeResponse sendCodeToEmail(String email) {
+//	@Override
+//	public SendCodeResponse sendCodeToEmail(String email) {
 //		UserEntity userEntity = userConverter.toEntity(findByEmail(email));
 //		if (userEntity != null) {
 //			RefreshTokenEntity refreshTokenEntity = refreshTokenRepositoryCustom.findByUserId(userEntity.getId());
@@ -190,17 +189,17 @@ public class UserService implements IUserService, UserDetailsService {
 //				return new SendCodeResponse(code);
 //			}
 //		}
-		return null;
-
-	}
+//		return null;
+//
+//	}
 
 	/*
 	 * check the refreshToken exists in refresh_token table -> check expired date of
 	 * the refreshToken -> find by user id -> encode password -> update password
 	 */
 
-	@Override
-	public UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest) {
+//	@Override
+//	public UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest) {
 
 //		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository
 //				.findByToken(resetPasswordRequest.getRefreshToken());
@@ -213,18 +212,18 @@ public class UserService implements IUserService, UserDetailsService {
 //			userEntity.setPassword(bCryptPasswordEncoder.encode(resetPasswordRequest.getNewPassword()));
 //			return userRepository.save(userEntity) != null ? userConverter.toDTO(userEntity) : null;
 //		}
-		return null;
-	}
+//		return null;
+//	}
 
-	public void sendEmail(String email, String code) {
-		// Email message
-		SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-		passwordResetEmail.setFrom("support@demo.com");
-		passwordResetEmail.setTo(email);
-		passwordResetEmail.setSubject("Password Reset Request");
-		passwordResetEmail.setText("To reset your password, please copy and paste the below code :\n" + code);
-
-		mailSender.send(passwordResetEmail);
-	}
+//	public void sendEmail(String email, String code) {
+//		// Email message
+//		SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
+//		passwordResetEmail.setFrom("support@demo.com");
+//		passwordResetEmail.setTo(email);
+//		passwordResetEmail.setSubject("Password Reset Request");
+//		passwordResetEmail.setText("To reset your password, please copy and paste the below code :\n" + code);
+//
+//		mailSender.send(passwordResetEmail);
+//	}
 
 }

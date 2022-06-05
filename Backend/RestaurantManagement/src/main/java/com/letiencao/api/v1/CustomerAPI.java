@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.letiencao.dto.request.SearchByNameRequest;
+
 import com.letiencao.dto.request.customer.CustomerInsertionRequest;
 import com.letiencao.dto.response.HTTPResponse;
 import com.letiencao.dto.response.customer.CustomerDTO;
@@ -31,10 +31,10 @@ public class CustomerAPI {
 				HttpStatus.OK);
 	}
 
-	@PostMapping("/search-by-name")
-	public ResponseEntity<List<CustomerDTO>> searchByName(@Valid @RequestBody SearchByNameRequest searchByNameRequest) {
-		List<CustomerDTO> customers = customerService.searchByName(searchByNameRequest.getName());
-		return new ResponseEntity<List<CustomerDTO>>(customers, HttpStatus.OK);
-	}
+//	@PostMapping("/search-by-name")
+//	public ResponseEntity<List<CustomerDTO>> searchByName(@Valid @RequestBody SearchByNameRequest searchByNameRequest) {
+//		List<CustomerDTO> customers = customerService.searchByName(searchByNameRequest.getName());
+//		return new ResponseEntity<List<CustomerDTO>>(customers, HttpStatus.OK);
+//	}
 
 }

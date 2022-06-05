@@ -11,9 +11,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "_order")
-@Getter
-@Setter
-@ToString
+
 public class OrderEntity extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -21,4 +19,20 @@ public class OrderEntity extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "table_seating_id")
 	private TableSeatingEntity tableSeatingEntity;
+
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
+	public TableSeatingEntity getTableSeatingEntity() {
+		return tableSeatingEntity;
+	}
+
+	public void setTableSeatingEntity(TableSeatingEntity tableSeatingEntity) {
+		this.tableSeatingEntity = tableSeatingEntity;
+	}
 }

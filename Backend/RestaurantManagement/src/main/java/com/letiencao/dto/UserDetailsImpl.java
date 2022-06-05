@@ -13,7 +13,7 @@ import com.letiencao.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+
 public class UserDetailsImpl implements UserDetails{
 
 	/**
@@ -21,6 +21,10 @@ public class UserDetailsImpl implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;	
 	private UserEntity userEntity;
+
+	public UserDetailsImpl(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

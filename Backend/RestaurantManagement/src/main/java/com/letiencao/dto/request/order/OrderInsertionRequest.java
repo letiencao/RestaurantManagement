@@ -8,8 +8,7 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
+
 public class OrderInsertionRequest {
 	
 	@Size(min = 1,message = "The table seating id list must be have 1 element at least")
@@ -17,4 +16,19 @@ public class OrderInsertionRequest {
 	@Min(message = "The user id must be greater than 0", value = 1)
 	private int userId;
 
+	public List<Integer> getTableSeatingIds() {
+		return tableSeatingIds;
+	}
+
+	public void setTableSeatingIds(List<Integer> tableSeatingIds) {
+		this.tableSeatingIds = tableSeatingIds;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 }

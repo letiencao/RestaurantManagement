@@ -14,9 +14,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "reservation_details")
-@Getter
-@Setter
-@ToString
 public class ReservationDetailsEntity {
 
 	// reservationId
@@ -31,4 +28,27 @@ public class ReservationDetailsEntity {
 	@JoinColumn(name = "table_seating_id")
 	private TableSeatingEntity tableSeatingEntity;
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public ReservationEntity getReservationEntity() {
+		return reservationEntity;
+	}
+
+	public void setReservationEntity(ReservationEntity reservationEntity) {
+		this.reservationEntity = reservationEntity;
+	}
+
+	public TableSeatingEntity getTableSeatingEntity() {
+		return tableSeatingEntity;
+	}
+
+	public void setTableSeatingEntity(TableSeatingEntity tableSeatingEntity) {
+		this.tableSeatingEntity = tableSeatingEntity;
+	}
 }

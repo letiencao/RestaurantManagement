@@ -1,11 +1,10 @@
 package com.letiencao.service;
 
 import com.letiencao.dto.request.LoginRequest;
-import com.letiencao.dto.request.ResetPasswordRequest;
-import com.letiencao.dto.request.authentication.RefreshTokenRequest;
+
 import com.letiencao.dto.request.user.UserInsertionRequest;
 import com.letiencao.dto.response.LoginResponse;
-import com.letiencao.dto.response.SendCodeResponse;
+
 import com.letiencao.dto.response.user.UserDTO;
 
 public interface IUserService {
@@ -24,10 +23,10 @@ public interface IUserService {
 	// Find a User By PhoneNumber
 	UserDTO findByPhoneNumber(String phoneNumber);
 
-	LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
-
-	SendCodeResponse sendCodeToEmail(String email);
-
-	UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest);
+//	LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+//
+//	SendCodeResponse sendCodeToEmail(String email);
+//
+//	UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest);
 
 }

@@ -8,8 +8,7 @@ import javax.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 
 public class ReservationInsertionRequest {
 	@Min(value = 1, message = "Customer ID must be greater than 0")
@@ -20,4 +19,35 @@ public class ReservationInsertionRequest {
 	@Min(value = 1, message = "Expected date must be greater than 0")
 	private Long expectedDate;
 
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	public BigDecimal getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(BigDecimal deposit) {
+		this.deposit = deposit;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Long getExpectedDate() {
+		return expectedDate;
+	}
+
+	public void setExpectedDate(Long expectedDate) {
+		this.expectedDate = expectedDate;
+	}
 }

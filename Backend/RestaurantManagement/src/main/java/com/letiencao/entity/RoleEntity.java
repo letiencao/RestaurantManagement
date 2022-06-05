@@ -9,10 +9,15 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "role")
-@Getter
-@Setter
 public class RoleEntity extends BaseEntity {
 	@Column(name = "name", columnDefinition = "nvarchar(30)")
 	private String name;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

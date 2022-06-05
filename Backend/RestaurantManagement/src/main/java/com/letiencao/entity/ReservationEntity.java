@@ -18,9 +18,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "reservation")
-@Getter
-@Setter
-@ToString
+
 public class ReservationEntity extends BaseEntity {
 
 	@Column(name = "deposit", columnDefinition = "DECIMAL")
@@ -35,6 +33,37 @@ public class ReservationEntity extends BaseEntity {
 	@Column(name = "expected_date", columnDefinition = "bigint")
 	private long expectedDate;
 
+	public BigDecimal getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(BigDecimal deposit) {
+		this.deposit = deposit;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public CustomerEntity getCustomerEntity() {
+		return customerEntity;
+	}
+
+	public void setCustomerEntity(CustomerEntity customerEntity) {
+		this.customerEntity = customerEntity;
+	}
+
+	public long getExpectedDate() {
+		return expectedDate;
+	}
+
+	public void setExpectedDate(long expectedDate) {
+		this.expectedDate = expectedDate;
+	}
 //	@ManyToMany(fetch = FetchType.EAGER) // Show toan bo data ke ca phan JOIN// LAZY : Ben trong da co data day du,nhung
 //	// chi khi goi truc tiep,moi show hang
 //	@JoinTable(name = "reservation_table_seating", // Táº¡o ra má»™t join Table tÃªn lÃ  "reservation_table_seating"
