@@ -43,7 +43,7 @@ public class OrderService implements IOrderService {
 				orderEntity.setCreatedDate(System.currentTimeMillis());
 				orderEntity.setCreatedBy(ConstantValues.CREATED_BY);
 				orderEntity.setStatus(ConstantValues.CHECKED_IN_ORDER);
-				orderEntity.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)));
+//				orderEntity.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)));
 				orderEntity.setUserEntity(userEntity);
 				orderEntity = orderRepository.save(orderEntity);
 				orderEntities.add(orderEntity);

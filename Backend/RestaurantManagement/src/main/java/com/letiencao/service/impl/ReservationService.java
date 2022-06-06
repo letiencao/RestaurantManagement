@@ -81,7 +81,7 @@ public class ReservationService implements IReservationService {
 //				// OK
 //				check++;
 //			}
-			if (tableSeatingRepository.findById(tableSeatingIds.get(i)).getStatus() == ConstantValues.FREE_TABLE) {
+			if (tableSeatingRepository.findById(tableSeatingIds.get(i)).get().getStatus() == ConstantValues.FREE_TABLE) {
 				check++;
 			}
 		}
@@ -128,7 +128,7 @@ public class ReservationService implements IReservationService {
 
 			for (int i = 0; i < tableSeatingIds.size(); i++) {
 				//update status of table
-				TableSeatingEntity tableSeatingEntity = tableSeatingRepository.findById(tableSeatingIds.get(i));
+				TableSeatingEntity tableSeatingEntity = tableSeatingRepository.findById(tableSeatingIds.get(i)).get();
 				tableSeatingEntity.setModifiedBy(ConstantValues.CREATED_BY);
 				tableSeatingEntity.setModifiedDate(System.currentTimeMillis());
 				tableSeatingEntity.setStatus(ConstantValues.RESERVED_TABLE);
@@ -136,7 +136,7 @@ public class ReservationService implements IReservationService {
 				//insert reservation details
 				ReservationDetailsEntity reservationDetailsEntity = new ReservationDetailsEntity();
 				reservationDetailsEntity.setReservationEntity(reservationRepository.findById(assignTableRequest.getReservationId()));
-				reservationDetailsEntity.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)));
+				reservationDetailsEntity.setTableSeatingEntity(tableSeatingRepository.findById(tableSeatingIds.get(i)).get());
 				reservationDetailsEntity = reservationDetailsRepository.save(reservationDetailsEntity);
 				
 			}

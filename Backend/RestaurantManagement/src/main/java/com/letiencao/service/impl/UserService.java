@@ -74,7 +74,7 @@ public class UserService implements IUserService, UserDetailsService {
 			// Check the valid role ID from input
 			List<RoleEntity> roleEntities = new ArrayList<RoleEntity>();
 			for (Integer id : userInsertionRequest.getRoleIds()) {
-				roleEntities.add(roleRepository.findOne(id));
+				roleEntities.add(roleRepository.findById(id).get());
 			}
 			userEntity.setRoleEntities(roleEntities);
 
