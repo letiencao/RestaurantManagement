@@ -110,4 +110,71 @@
      * 
      * @return void
      */
+
+    public static function EditProductsController(){
+
+        if(isset($_POST["editProducts"])){
+
+            if(preg_match('/^[a-zA-Z0-9 ]+$/', $_POST["editProducts"]) &&
+               preg_match('/^[0-9]+$/', $_POST["editStock"]) && 
+               preg_match('/^[0-9.]+$/', $_POST["editBuyingPrice"]) &&
+               preg_match('/^[0-9.]+$/', $_POST["editSellingPrice"])){
+
+                $table = "products";
+
+                $data = array("idCategory" => $_POST["editCategory"],
+                               "code" => $_POST["editCode"],
+                               "product" => $_POST["editProducts"],
+                               "stock" => $_POST["editStock"],
+                               "buyingPrice" => $_POST["editBuyingPricePlus"],
+                               "sellingPrice" => $_POST["editSellingPrice"]);
+
+                $answer = ProductsModel::EditProductModel($table, $data);
+
+                if($answer == "ok"){
+
+                    echo'<script>
+
+                        swal({
+                              type: "success",
+                              title: "Product Edited Successfully",
+                              showConfirmButton: true,
+                              confirmButtonText: "Close"
+                              }).then(function(result){
+                                        if (result.value) {
+
+                                        window.location = "products";
+
+                                        }
+                                    })
+
+                        </script>';
+
+                }
+
+
+            }else{
+
+                echo'<script>
+
+                    swal({
+                          type: "error",
+                          title: "Sorry, Product Was Not Edited",
+                          showConfirmButton: true,
+                          confirmButtonText: "Close"
+                          }).then(function(result){
+                            if (result.value) {
+
+                            window.location = "products";
+
+                            }
+                        })
+
+                </script>';
+            }
+
+        }
+
+    }
+
  }
