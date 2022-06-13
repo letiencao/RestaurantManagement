@@ -220,4 +220,19 @@
 
     }
 
+    /**
+    * Sums the total of all sales from the 
+    * products table
+    * @return void
+    */
+    static public function sumOfSalesController(){
+
+        $table = "products";
+
+        $answer = ProductsModel::sumOfSalesModel($table);
+
+        return $answer;
+
+    }
+
  }
