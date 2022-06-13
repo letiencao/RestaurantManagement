@@ -100,5 +100,86 @@ class ProductsModel{
 
 	}
 
+	//delete product
+	/**
+	 * deletes selected product in the  products table by id
+	 * @param mixed $table
+	 * @param mixed $data
+	 * 
+	 * @return void
+	 */
+	public static function DeleteProductModel($table, $data){
+
+		$stmt = Connection::connect()->prepare("DELETE FROM $table WHERE id = :id");
+
+		$stmt -> bindParam(":id", $data, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+	}
+
+	/**
+	 * updates the product table using input data
+	 * @param mixed $table
+	 * @param mixed $item1
+	 * @param mixed $value1
+	 * @param mixed $value
+	 * 
+	 * @return void
+	 */
+	public static function UpdateProductModel($table, $item1, $value1, $value){
+
+		$stmt = Connection::connect()->prepare("UPDATE $table SET $item1 = :$item1 WHERE id = :id");
+
+		$stmt -> bindParam(":".$item1, $value1, PDO::PARAM_STR);
+		$stmt -> bindParam(":id", $value, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+
+	/**
+	* displays the sum of sales as total price from the database table
+	* 
+	* @param mixed $table
+	* 
+	* @return void
+	*/
+	static public function sumOfSalesModel($table){
+
+		$stmt = Connection::connect()->prepare("SELECT SUM(sales) as totalPrice FROM $table");
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+		$stmt -> close();
+
+		$stmt = null;
+	}
 	
 } 
