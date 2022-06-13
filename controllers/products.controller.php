@@ -177,4 +177,47 @@
 
     }
 
+    //delete product
+    /**
+     * fetches product id from the products table 
+     * then deletes the product from the table
+     * 
+     * if deletion is successful user will recieve a success message 
+     * while if deletion fails user will recieve an error message
+     * 
+     * @return void
+     */
+    public static function DeleteProductsController(){
+
+        if(isset($_GET["idProduct"])){
+            
+            $table = "products";
+            $data = $_GET["idProduct"];
+
+            $answer = ProductsModel::DeleteProductModel($table, $data);
+
+            if($answer == "ok"){
+
+                echo'<script>
+
+                swal({
+                        type: "success",
+                        title: "Product Deleted Successfully",
+                        showConfirmButton: true,
+                        confirmButtonText: "Close"
+                        }).then(function(result){
+                                if (result.value) {
+
+                                window.location = "products";
+
+                                }
+                            })
+
+                </script>';
+
+            }
+        }
+
+    }
+
  }
