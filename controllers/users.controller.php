@@ -78,4 +78,73 @@ class UserController{
 		}
 	}
 
-}
+// Create User
+	/**
+	 * If the post variable is set to newUser and then check if the new Name/User/Password are valid characters
+	 * go to the users table hash the new password and input the users data unto the table.
+	 * Send success message to the user that new user was added.
+	 * 
+	 * else send error message telling the user that there was an error, fill in all fields making sure there are
+	 * no special characters allowed.
+	 * 
+	 * @return void
+	 */
+	public static function CreateUserController(){
+
+		if (isset($_POST["newUser"])) {
+			
+			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["newName"]) &&
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["newUser"]) &&
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["newPassword"])){
+
+				$table = 'users';
+
+				$crypt = crypt($_POST["newPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+				$data = array('name' => $_POST["newName"],
+							  'user' => $_POST["newUser"],
+							  'password' => $crypt,
+							  'profile' => $_POST["newProfile"]);
+
+				$answer = UserModel::AddUserModel($table, $data);
+
+				if ($answer == 'ok') {
+
+						echo '<script>
+						
+						swal({
+							type: "success",
+							title: "User Added Successfully!",
+							showConfirmButton: true,
+							confirmButtonText: "Close"
+						}).then(function(result){
+							if(result.value){
+								window.location = "users";
+							}
+						});
+						
+						</script>';
+
+				}
+			
+			}else{
+
+				echo '<script>
+					
+					swal({
+						type: "error",
+						title: "Please fill in all fields, no special characters allowed",
+						showConfirmButton: true,
+						confirmButtonText: "Close"
+			
+						}).then(function(result){
+							if(result.value){
+								window.location = "users";
+							}
+						});
+					
+				</script>';
+			}
+			
+		}
+	}
