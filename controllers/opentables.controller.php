@@ -208,7 +208,47 @@ class OpenTableController{
             
             }
             
-        }
+        }elseif (isset($_POST["newPaymentMethod"])) {
+
+            // Update customer purchases, stock levels and product sale figures
+            $totalPurchases = array();
+            
+            foreach ($products as $key => $value) {
+                
+                array_push($totalPurchases, $value["quantity"]);
+                
+                $tableProducts = "products";
+                
+                $item = "id";
+                $valueProductId = $value["id"];
+                $order = "id";
+                
+                $getProduct = ProductsModel::ShowProductsModel($tableProducts, $item, $valueProductId, $order);
+                
+                $item1 = "sales";
+                $value1 = $value["quantity"] + $getProduct["sales"];
+                
+                $newSales = ProductsModel::UpdateProductModel($tableProducts, $item1, $value1, $valueProductId);
+                
+                $item2 = "stock";
+                $value2 = $value["stock"];
+                
+                $newStock = ProductsModel::UpdateProductModel($tableProducts, $item2, $value2, $valueProductId);
+                
+            }
+            
+            $tableCustomers = "customers";
+            
+            $item = "idNumber";
+            $valueCustomer = $_POST["customerSearch"];
+            
+            
+            $getCustomer = CustomersModel::ShowCustomersModel($tableCustomers, $item, $valueCustomer);
+            $item1 = "purchases";
+            $value1 = array_sum($totalPurchases) + $getCustomer["purchases"];
+            
+            $customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item1, $value1, $valueCustomer);
+            
         
     }
 
