@@ -89,4 +89,32 @@ class CustomersModel{
 	 * @return void
 	 */
 
+	public static function EditCustomerModel($table, $data){
+
+        $stmt = Connection::connect()->prepare("UPDATE $table SET name = :name, idNumber = :idNumber, address = :address, email = :email, mobile = :mobile, dob = :dob, discount = :discount WHERE id = :id");
+        
+        $stmt->bindParam(":id", $data["id"], PDO::PARAM_INT);
+        $stmt->bindParam(":name", $data["name"], PDO::PARAM_STR);
+        $stmt->bindParam(":idNumber", $data["idNumber"], PDO::PARAM_INT);
+        $stmt->bindParam(":address", $data["address"], PDO::PARAM_STR);
+		$stmt->bindParam(":email", $data["email"], PDO::PARAM_STR);
+		$stmt->bindParam(":mobile", $data["mobile"], PDO::PARAM_STR);
+        $stmt->bindParam(":dob", $data["dob"], PDO::PARAM_STR);
+        $stmt->bindParam(":discount", $data["discount"], PDO::PARAM_INT);
+
+		if($stmt->execute()){
+
+			return "ok";
+
+		}else{
+
+			return "error";
+		
+		}
+
+		$stmt->close();
+		$stmt = null;
+
+    }
+
 }
