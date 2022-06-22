@@ -173,4 +173,54 @@ class CustomerController{
 		}
 
     }
+	/**
+	 * gets the id of the customer chosen from the customers table and deletes it
+	 * success message will be displayed after deletion
+     * @return void
+     */
+    public static function DeleteCustomerController(){
+
+		if(isset($_GET["idCustomer"])){
+
+			$table ="customers";
+			$data = $_GET["idCustomer"];
+
+			$answer = CustomersModel::DeleteCustomerModel($table, $data);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+				swal({
+					  type: "success",
+					  title: "Deleted",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close"
+					  }).then(function(result){
+								if (result.value) {
+
+								window.location = "customers";
+
+								}
+							})
+
+				</script>';
+
+			}		
+
+		}
+
+	}
+
+    /**
+	 * sends a request to search for customer by Id
+	 * 
+     * @param mixed $request
+     * 
+     * @return void
+     */
+    public static function searchCustomer($request){
+		
+        return CustomersModel::searchByNumberId($request);
+    }
 }
