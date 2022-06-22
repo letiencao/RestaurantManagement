@@ -46,8 +46,7 @@ if($_SESSION["profile"] == "staff"){
                
                <th style="width:10px">#</th>
                <th>Category</th>
-               <th>VAT</th>
-               <th>Tax</th>
+               
                <th>Actions</th>
 
              </tr> 
@@ -68,8 +67,7 @@ if($_SESSION["profile"] == "staff"){
                   echo '<tr>
                           <td>'.($key+1).'</td>
                           <td class="text-uppercase">'.$value['Category'].'</td>
-                          <td class="text-uppercase">'.$value['Vat'].'</td>
-                          <td class="text-uppercase">'.$value['Tax'].'</td>
+                         
                           <td>
 
                             <div class="btn-group">
