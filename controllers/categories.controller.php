@@ -159,4 +159,41 @@
 		}
 
     }
+	/**
+	 * gets the idcategory from the categories table and deletes it
+	 * success message if completed correctly , error message if not
+     * @return void
+     */
+    public static function DeleteCategoryController(){
+
+		if(isset($_GET["idCategory"])){
+
+			$table ="categories";
+			$data = $_GET["idCategory"];
+
+			$answer = CategoriesModel::DeleteCategoryModel($table, $data);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Category successfully deleted",
+						  showConfirmButton: true,
+						  confirmButtonText: "Close"
+						  }).then(function(result){
+									if (result.value) {
+
+									window.location = "categories";
+
+									}
+								})
+
+					</script>';
+			}
+		
+		}
+		
+	}
  }
