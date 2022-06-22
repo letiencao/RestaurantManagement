@@ -116,5 +116,52 @@ class CustomersModel{
 		$stmt = null;
 
     }
+	/**
+	 * deletes selected customer from the customers table
+     * @param mixed $table
+     * @param mixed $data
+     * 
+     * @return void
+     */
+    public static function DeleteCustomerModel($table, $data){
+
+		$stmt = Connection::connect()->prepare("DELETE FROM $table WHERE id = :id");
+
+		$stmt -> bindParam(":id", $data, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+	/**
+	 * searches for customer with the query made
+	 * 
+	 * @param mixed $query
+	 * 
+	 * @return void
+	 */
+	public static function searchByNumberId($query){
+
+		$stmt = Connection::connect()->prepare("SELECT * FROM customers WHERE idNumber LIKE '%$query%'");
+		
+		$stmt->setFetchMode(PDO::FETCH_OBJ);
+		
+		$stmt -> execute();
+		
+        return $stmt -> fetchAll();
+    
+	}
 
 }
