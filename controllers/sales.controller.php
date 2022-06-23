@@ -321,3 +321,136 @@ class SalesController{
 		}
 
 	}
+
+	// Delete Sales
+	/**
+	 * fetches the idsale from the sales table
+	 * deletes sale from the table
+	 * @return void
+	 */
+	public static function DeleteSaleController(){
+
+		if(isset($_GET["idSale"])){
+
+			$table = "sales";
+
+			$item = "id";
+			$value = $_GET["idSale"];
+
+			$getSale = ModelSales::ShowSalesModel($table, $item, $value);
+
+			$tableCustomers = "customers";
+
+			$itemsales = null;
+			$valuesales = null;
+
+			$getSales = ModelSales::ShowSalesModel($table, $itemsales, $valuesales);
+
+			$saveDates = array();
+
+			foreach ($getSales as $key => $value) {
+				
+				if($value["idCustomer"] == $getSale["idCustomer"]){
+
+					array_push($saveDates, $value["saledate"]);
+
+				}
+
+			}
+
+			if(count($saveDates) > 1){
+
+				if($getSale["saledate"] > $saveDates[count($saveDates)-2]){
+
+					$item = "lastPurchase";
+					$value = $saveDates[count($saveDates)-2];
+					$valueIdCustomer = $getSale["idCustomer"];
+
+					$customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item, $value, $valueIdCustomer);
+
+				}else{
+
+					$item = "lastPurchase";
+					$value = $saveDates[count($saveDates)-1];
+					$valueIdCustomer = $getSale["idCustomer"];
+
+					$customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item, $value, $valueIdCustomer);
+
+				}
+
+
+			}else{
+
+				$item = "lastPurchase";
+				$value = "0000-00-00 00:00:00";
+				$valueIdCustomer = $getSale["idCustomer"];
+
+				$customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item, $value, $valueIdCustomer);
+
+			}
+
+			$products =  json_decode($getSale["products"], true);
+
+			$totalPurchasedProducts = array();
+
+			foreach ($products as $key => $value) {
+
+				array_push($totalPurchasedProducts, $value["quantity"]);
+				
+				$tableProducts = "products";
+
+				$item = "id";
+				$valueProductId = $value["id"];
+				$order = "id";
+
+				$getProduct = ProductsModel::ShowProductsModel($tableProducts, $item, $valueProductId, $order);
+
+				$item1a = "sales";
+				$value1a = $getProduct["sales"] - $value["quantity"];
+				
+				$newSales = ProductsModel::UpdateProductModel($tableProducts, $item1a, $value1a, $valueProductId);
+
+				$item1b = "stock";
+				$value1b = $value["quantity"] + $getProduct["stock"];
+
+				$newStock = ProductsModel::UpdateProductModel($tableProducts, $item1b, $value1b, $valueProductId);
+
+			}
+
+			$tableCustomers = "customers";
+
+			$itemCustomer = "idNumber";
+			$valueCustomer = $getSale["idCustomer"];
+
+			$getCustomer = CustomersModel::ShowCustomersModel($tableCustomers, $itemCustomer, $valueCustomer);
+
+			$item1a = "purchases";
+			$value1a = $getCustomer["purchases"] - array_sum($totalPurchasedProducts);
+
+			$customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item1a, $value1a, $valueCustomer);
+
+			$answer = ModelSales::DeleteSalesModel($table, $_GET["idSale"]);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+				swal({
+					  type: "success",
+					  title: "Sale Deleted",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close",
+					  closeOnConfirm: false
+					  }).then((result) => {
+								if (result.value) {
+
+								window.location = "sales";
+
+								}
+							})
+
+				</script>';
+
+			}		
+		}
+	}
