@@ -98,4 +98,129 @@ class CustomerController{
 		}
 
     }
+	/**
+	 * Edits existing customer in the customers table,
+	 * if all inputs entered to edit the customer are correct the customer will be successfully edited
+	 * and the user will get a success message while if any is input incorrectly the user will recieve
+	 * an error message
+     * @return void
+     */
+    public static function EditCustomerController(){
+
+		if(isset($_POST["editCustomer"])){
+
+			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editCustomer"]) &&
+			   preg_match('/^[0-9]+$/', $_POST["editId"]) &&
+			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editEmail"]) && 
+			   preg_match('/^[()\-0-9 ]+$/', $_POST["editMobile"]) && 
+			   preg_match('/^[#\.\-a-zA-Z0-9 ]+$/', $_POST["editAddress"])){
+
+			   	$table = "customers";
+
+                   $data = array("id"=>$_POST["idCustomer"],
+                               "name"=>$_POST["editCustomer"],
+					           "idNumber"=>$_POST["editId"],
+					           "email"=>$_POST["editEmail"],
+					           "mobile"=>$_POST["editMobile"],
+					           "address"=>$_POST["editAddress"],
+                               "dob"=>$_POST["editDob"],
+                               "discount"=>$_POST["editDiscount"]);
+
+			   	$answer = CustomersModel::EditCustomerModel($table, $data);
+
+			   	if($answer == "ok"){
+
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Saved",
+						  showConfirmButton: true,
+						  confirmButtonText: "Confirm"
+						  }).then(function(result){
+									if (result.value) {
+
+									window.location = "customers";
+
+									}
+								})
+
+					</script>';
+
+				}
+
+			}else{
+
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "Error Filling in Customer Details. Try Again !!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Close"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "customers";
+
+							}
+						})
+
+			  	</script>';
+
+			}
+
+		}
+
+    }
+	/**
+	 * gets the id of the customer chosen from the customers table and deletes it
+	 * success message will be displayed after deletion
+     * @return void
+     */
+    public static function DeleteCustomerController(){
+
+		if(isset($_GET["idCustomer"])){
+
+			$table ="customers";
+			$data = $_GET["idCustomer"];
+
+			$answer = CustomersModel::DeleteCustomerModel($table, $data);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+				swal({
+					  type: "success",
+					  title: "Deleted",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close"
+					  }).then(function(result){
+								if (result.value) {
+
+								window.location = "customers";
+
+								}
+							})
+
+				</script>';
+
+			}		
+
+		}
+
+	}
+
+    /**
+	 * sends a request to search for customer by Id
+	 * 
+     * @param mixed $request
+     * 
+     * @return void
+     */
+    public static function searchCustomer($request){
+		
+        return CustomersModel::searchByNumberId($request);
+    }
 }
