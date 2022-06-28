@@ -454,3 +454,42 @@ class SalesController{
 			}		
 		}
 	}
+
+
+//date ranges
+	/**
+	 * 
+	 * displays sales in a specific date range chosen by the user
+	 * 
+	 * @param mixed $initialDate
+	 * @param mixed $finalDate
+	 * 
+	 * @return void
+	 */
+	public static function salesDatesRangeController($initialDate, $finalDate){
+
+		$table = "sales";
+
+		$answer = ModelSales::DatesRangeModel($table, $initialDate, $finalDate);
+
+		return $answer;
+		
+	}
+
+
+	/**
+	 * Sums the total of all sales from the 
+	 * sales table
+	 * 
+	 * @return void
+	 */
+	public static function sumTotalSalesController(){
+
+		$table = "sales";
+
+		$answer = ModelSales::sumTotalSalesModel($table);
+
+		return $answer;
+
+	}
+
