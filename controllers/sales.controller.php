@@ -519,6 +519,27 @@ class SalesController{
 					<td style='font-weight:bold; border:1px solid #eee;'>Sale Date</td>		
 					</tr>");
 
+
+					foreach ($sales as $row => $item){
+
+						$customer = CustomerController::ShowCustomerController("id", $item["idCustomer"]);
+						$staff = UserController::ShowUsersController("id", $item["idSeller"]);
+		
+					echo utf8_decode("<tr>
+							<td style='border:1px solid #eee;'>".$item["code"]."</td> 
+							<td style='border:1px solid #eee;'>".$customer["name"]."</td>
+							<td style='border:1px solid #eee;'>".$staff["name"]."</td>
+							<td style='border:1px solid #eee;'>");
+		
+						$products =  json_decode($item["products"], true);
+		
+						foreach ($products as $key => $valueproducts) {
+								 
+							echo utf8_decode($valueproducts["quantity"]."<br>");
+		
+							}
+		
+
 		}
 
 	}
