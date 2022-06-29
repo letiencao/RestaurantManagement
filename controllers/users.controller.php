@@ -165,4 +165,109 @@ class UserController{
 
 		return $answer;
 	}
+// Edit User
+	/**
+	 * fetches the user details from table 
+	 * and chanages them according to what was entered
+	 * if invalid characters are input error message will be sent
+	 * else user will be edited
+	 * @return void
+	 */
+	public static function EditUserController(){
+
+		if (isset($_POST["EditUser"])) {
+			
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["EditName"])){
+
+				$table = 'users';
+
+				if($_POST["EditPassword"] != ""){
+
+					if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["EditPassword"])){
+
+						$encryptpassword = crypt($_POST["EditPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+					}
+
+					else{
+
+						echo '<script>
+					
+							swal({
+								type: "error",
+								title: "Please fill in all fields, no special characters allowed",
+								showConfirmButton: true,
+								confirmButtonText: "Close"
+
+								}).then(function(result){
+										
+									if (result.value) {
+						
+										window.location = "users";
+
+									}
+								});
+							
+						</script>';
+					}
+				
+				}else{
+
+					$encryptpassword = $_POST["CurrentPassword"];
+					
+				}
+
+				$data = array('name' => $_POST["EditName"],
+								'user' => $_POST["EditUser"],
+								'password' => $encryptpassword,
+								'profile' => $_POST["EditProfile"]);
+
+				$answer = UserModel::EditUserModel($table, $data);
+
+				if ($answer == 'ok') {
+					
+					echo '<script>
+					
+						swal({
+							type: "success",
+							title: "User Edited Successfully!",
+							showConfirmButton: true,
+							confirmButtonText: "Close"
+
+						 }).then(function(result){
+							
+							if (result.value) {
+
+								window.location = "users";
+							}
+
+						});
+					
+					</script>';
+				}
+				else{
+					echo '<script>
+						
+						swal({
+							type: "error",
+							title: "Please fill in all fields, no special characters allowed",
+							showConfirmButton: true,
+							confirmButtonText: "Close"
+							 }).then(function(result){
+									
+								if (result.value) {
+
+									window.location = "users";
+								
+								}
+
+							});
+						
+					</script>';
+				}
+			
+			}	
+		
+		}
+	
 	}
