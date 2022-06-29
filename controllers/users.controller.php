@@ -269,5 +269,46 @@ class UserController{
 			}	
 		
 		}
+// Delete User
+	/**
+	 * fetches the user id from the table
+	 * then deletes the user
+	 * @return void
+	 */
+	public static function DeleteUserController(){
+
+		if(isset($_GET["userId"])){
+
+			$table ="users";
+			$data = $_GET["userId"];
+			var_dump($data);
+			$answer = UserModel::DeleteUserModel($table, $data);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+				swal({
+					  type: "success",
+					  title: "User has been Deleted",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close"
+
+					  }).then(function(result){
+					  	
+						if (result.value) {
+
+						window.location = "users";
+
+						}
+					})
+
+				</script>';
+
+			}		
+
+		}
+
+	}
 	
 	}
