@@ -147,4 +147,22 @@ class UserController{
 			}
 			
 		}
+	// Show Users
+	/**
+	 * fetches user table from database 
+	 * and displays the contents
+	 * 
+	 * @param mixed $item
+	 * @param mixed $value
+	 * 
+	 * @return void
+	 */
+	public static function ShowUsersController($item, $value){
+
+		$table = "users";
+
+		$answer = UserModel::ShowUsersModel($table, $item, $value);
+
+		return $answer;
+	}
 	}
