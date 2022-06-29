@@ -539,6 +539,19 @@ class SalesController{
 		
 							}
 		
+							echo utf8_decode("</td>
+							<td style='border:1px solid #eee;'>".number_format($item["discount"])."%</td>
+							<td style='border:1px solid #eee;'>$ ".number_format($item["netPrice"],2)."</td>	
+							<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
+							<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
+							<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
+							 </tr>");
+		
+		
+		
+					}
+					
+					echo "</table>";
 
 		}
 
