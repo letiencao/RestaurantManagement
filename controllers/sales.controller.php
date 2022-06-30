@@ -111,12 +111,103 @@ class SalesController{
 				</script>';
             
             }
+            
+        } elseif(isset($_POST["newSale"])){
+
+			// Update customer purchases, stock levels and product sale figures
+			$productsList = json_decode($_POST["productsList"], true);
+
+			$totalPurchases = array();
+
+			foreach ($productsList as $key => $value) {
+
+			   array_push($totalPurchases, $value["quantity"]);
+				
+			   $tableProducts = "products";
+
+			    $item = "id";
+			    $valueProductId = $value["id"];
+			    $order = "id";
+
+			    $getProduct = ProductsModel::ShowProductsModel($tableProducts, $item, $valueProductId, $order);
+
+				$item1 = "sales";
+				$value1 = $value["quantity"] + $getProduct["sales"];
+
+			    $newSales = ProductsModel::UpdateProductModel($tableProducts, $item1, $value1, $valueProductId);
+
+				$item2 = "stock";
+				$value2 = $value["stock"];
+
+				$newStock = ProductsModel::UpdateProductModel($tableProducts, $item2, $value2, $valueProductId);
+
+			}
+
+			$tableCustomers = "customers";
+
+			$item = "idNumber";
+			$valueCustomer = $_POST["customerSearch"];
+			
+			$getCustomer = CustomersModel::ShowCustomersModel($tableCustomers, $item, $valueCustomer);
+	
+			$item1 = "purchases";
+			$value1 = array_sum($totalPurchases) + $getCustomer["purchases"];
+		
+			$customerPurchases = CustomersModel::UpdateCustomerModel($tableCustomers, $item1, $value1, $valueCustomer);
+
+			$item2 = "lastPurchase";
+
+			date_default_timezone_set("Europe/Dublin");
+
+			$date = date('Y-m-d');
+			$hour = date('H:i:s');
+			$value2 = $date.' '.$hour;
+
+			$dateCustomer = CustomersModel::UpdateCustomerModel($tableCustomers, $item2, $value2, $valueCustomer);
+			
+			$table = "sales";
+
+			// Save sale to database
+			$data = array("code"=>$_POST["newSale"],
+						  "idSeller"=>$_POST["idSeller"],
+						  "tableNo"=>$_POST["tableNo"],
+						  "idCustomer"=>$_POST["customerSearch"],
+						  "products"=>$_POST["productsList"],
+						  "netPrice"=>$_POST["newNetPrice"],
+						  "discount"=>$_POST["newDiscountSale"],
+						  "totalPrice"=>$_POST["newSaleTotal"],
+						  "paymentMethod"=>$_POST["newPaymentMethod"]);
+
+			$answer = ModelSales::AddSaleModel($table, $data);
+
+			if($answer == "ok"){
+
+				echo'<script>
+
+				localStorage.removeItem("range");
+
+				swal({
+					  type: "success",
+					  title: "Sale Successful",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close"
+					  }).then((result) => {
+								if (result.value) {
+
+								window.location = "sales";
+
+								}
+							})
+
+				</script>';
+
+			}
+
+		}
 
 	}
-
-}
-
-/**
+	
+	/**
 	 * fetches all data from the sales table 
 	 * and returns it
 	 * @return void
@@ -348,7 +439,15 @@ class SalesController{
 
 			$saveDates = array();
 
-		
+			foreach ($getSales as $key => $value) {
+				
+				if($value["idCustomer"] == $getSale["idCustomer"]){
+
+					array_push($saveDates, $value["saledate"]);
+
+				}
+
+			}
 
 			if(count($saveDates) > 1){
 
@@ -385,7 +484,29 @@ class SalesController{
 
 			$totalPurchasedProducts = array();
 
-			
+			foreach ($products as $key => $value) {
+
+				array_push($totalPurchasedProducts, $value["quantity"]);
+				
+				$tableProducts = "products";
+
+				$item = "id";
+				$valueProductId = $value["id"];
+				$order = "id";
+
+				$getProduct = ProductsModel::ShowProductsModel($tableProducts, $item, $valueProductId, $order);
+
+				$item1a = "sales";
+				$value1a = $getProduct["sales"] - $value["quantity"];
+				
+				$newSales = ProductsModel::UpdateProductModel($tableProducts, $item1a, $value1a, $valueProductId);
+
+				$item1b = "stock";
+				$value1b = $value["quantity"] + $getProduct["stock"];
+
+				$newStock = ProductsModel::UpdateProductModel($tableProducts, $item1b, $value1b, $valueProductId);
+
+			}
 
 			$tableCustomers = "customers";
 
@@ -426,7 +547,7 @@ class SalesController{
 	}
 
 
-//date ranges
+	//date ranges
 	/**
 	 * 
 	 * displays sales in a specific date range chosen by the user
@@ -463,7 +584,8 @@ class SalesController{
 
 	}
 
-//print report to excell
+
+	//print report to excell
 
 	/**
 	 * prints the details of a sale onto an excell sheet
@@ -489,6 +611,7 @@ class SalesController{
 
 
 			}
+
 
 			//Excel file - https://stackoverflow.com/questions/37958282/php-generate-xlsx
 
@@ -520,39 +643,47 @@ class SalesController{
 					</tr>");
 
 
-					foreach ($sales as $row => $item){
+			foreach ($sales as $row => $item){
 
-						$customer = CustomerController::ShowCustomerController("id", $item["idCustomer"]);
-						$staff = UserController::ShowUsersController("id", $item["idSeller"]);
-		
-					echo utf8_decode("<tr>
-							<td style='border:1px solid #eee;'>".$item["code"]."</td> 
-							<td style='border:1px solid #eee;'>".$customer["name"]."</td>
-							<td style='border:1px solid #eee;'>".$staff["name"]."</td>
-							<td style='border:1px solid #eee;'>");
-		
-						$products =  json_decode($item["products"], true);
-		
-						foreach ($products as $key => $valueproducts) {
-								 
-							echo utf8_decode($valueproducts["quantity"]."<br>");
-		
-							}
-		
-							echo utf8_decode("</td>
-							<td style='border:1px solid #eee;'>".number_format($item["discount"])."%</td>
-							<td style='border:1px solid #eee;'>$ ".number_format($item["netPrice"],2)."</td>	
-							<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
-							<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
-							<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
-							 </tr>");
-		
-		
-		
+				$customer = CustomerController::ShowCustomerController("id", $item["idCustomer"]);
+				$staff = UserController::ShowUsersController("id", $item["idSeller"]);
+
+			echo utf8_decode("<tr>
+					<td style='border:1px solid #eee;'>".$item["code"]."</td> 
+					<td style='border:1px solid #eee;'>".$customer["name"]."</td>
+					<td style='border:1px solid #eee;'>".$staff["name"]."</td>
+					<td style='border:1px solid #eee;'>");
+
+				$products =  json_decode($item["products"], true);
+
+				foreach ($products as $key => $valueproducts) {
+			 			
+					echo utf8_decode($valueproducts["quantity"]."<br>");
+
 					}
-					
-					echo "</table>";
 
+				echo utf8_decode("</td><td style='border:1px solid #eee;'>");	
+
+				foreach ($products as $key => $valueproducts) {
+						
+					echo utf8_decode($valueproducts["product"]."<br>");
+				
+				}
+
+				echo utf8_decode("</td>
+					<td style='border:1px solid #eee;'>".number_format($item["discount"])."%</td>
+					<td style='border:1px solid #eee;'>$ ".number_format($item["netPrice"],2)."</td>	
+					<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
+					<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
+					<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
+		 			</tr>");
+
+
+
+			}
+
+			
+			echo "</table>";
 		}
 
 	}
