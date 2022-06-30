@@ -348,15 +348,7 @@ class SalesController{
 
 			$saveDates = array();
 
-			foreach ($getSales as $key => $value) {
-				
-				if($value["idCustomer"] == $getSale["idCustomer"]){
-
-					array_push($saveDates, $value["saledate"]);
-
-				}
-
-			}
+		
 
 			if(count($saveDates) > 1){
 
@@ -393,29 +385,7 @@ class SalesController{
 
 			$totalPurchasedProducts = array();
 
-			foreach ($products as $key => $value) {
-
-				array_push($totalPurchasedProducts, $value["quantity"]);
-				
-				$tableProducts = "products";
-
-				$item = "id";
-				$valueProductId = $value["id"];
-				$order = "id";
-
-				$getProduct = ProductsModel::ShowProductsModel($tableProducts, $item, $valueProductId, $order);
-
-				$item1a = "sales";
-				$value1a = $getProduct["sales"] - $value["quantity"];
-				
-				$newSales = ProductsModel::UpdateProductModel($tableProducts, $item1a, $value1a, $valueProductId);
-
-				$item1b = "stock";
-				$value1b = $value["quantity"] + $getProduct["stock"];
-
-				$newStock = ProductsModel::UpdateProductModel($tableProducts, $item1b, $value1b, $valueProductId);
-
-			}
+			
 
 			$tableCustomers = "customers";
 
@@ -520,6 +490,68 @@ class SalesController{
 
 			}
 
+			//Excel file - https://stackoverflow.com/questions/37958282/php-generate-xlsx
+
+			$name = $_GET["report"].'.xls';
+
+			header('Expires: 0');
+			header('Cache-control: private');
+			header("Content-type: application/vnd.ms-excel"); // Excel file
+			header("Cache-Control: cache, must-revalidate"); 
+			header('Content-Description: File Transfer');
+			header('Last-Modified: '.date('D, d M Y H:i:s'));
+			header("Pragma: public"); 
+			header('Content-Disposition:; filename="'.$name.'"');
+			header("Content-Transfer-Encoding: binary");
+
+			echo utf8_decode("<table border='0'>
+
+					<tr> 
+					<td style='font-weight:bold; border:1px solid #eee;'>Code</td> 
+					<td style='font-weight:bold; border:1px solid #eee;'>Customer</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>Staff</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>Products</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>Discount</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>NetPrice</td>		
+					<td style='font-weight:bold; border:1px solid #eee;'>Total</td>		
+					<td style='font-weight:bold; border:1px solid #eee;'>Payment Method</td	
+					<td style='font-weight:bold; border:1px solid #eee;'>Sale Date</td>		
+					</tr>");
+
+
+					foreach ($sales as $row => $item){
+
+						$customer = CustomerController::ShowCustomerController("id", $item["idCustomer"]);
+						$staff = UserController::ShowUsersController("id", $item["idSeller"]);
+		
+					echo utf8_decode("<tr>
+							<td style='border:1px solid #eee;'>".$item["code"]."</td> 
+							<td style='border:1px solid #eee;'>".$customer["name"]."</td>
+							<td style='border:1px solid #eee;'>".$staff["name"]."</td>
+							<td style='border:1px solid #eee;'>");
+		
+						$products =  json_decode($item["products"], true);
+		
+						foreach ($products as $key => $valueproducts) {
+								 
+							echo utf8_decode($valueproducts["quantity"]."<br>");
+		
+							}
+		
+							echo utf8_decode("</td>
+							<td style='border:1px solid #eee;'>".number_format($item["discount"])."%</td>
+							<td style='border:1px solid #eee;'>$ ".number_format($item["netPrice"],2)."</td>	
+							<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
+							<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
+							<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
+							 </tr>");
+		
+		
+		
+					}
+					
+					echo "</table>";
 
 		}
 
