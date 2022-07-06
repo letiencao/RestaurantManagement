@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  
+  #webserver-php-Service
+  app:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+
+    working_dir: /var/www/html
+    networks:
+      - app-network
+    healthcheck:
+            test: "wget -q http://localhost || exit 1"
+            timeout: 10s
+            interval: 5s
+            retries: 10      
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.36
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: phpmyadmin
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_USERNAME: restaurantpos5
+      MYSQL_PASSWORD: 
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
