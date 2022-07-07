@@ -21,6 +21,8 @@
     3.6 [Excel](#Excel)
 
     3.7 [Chart](#Chart)
+    
+    3.8 [Docker](#Docker)
 4. [Cloning](#clone)
  
 # Project Details <a name="ProjDetails"></a>
@@ -96,6 +98,14 @@
 Morris.js lets the user create aesthetic charts in next to no time, it is made very simple using the public api for each chart, We decided to go with this as it was shown as a chart in the AdminLTE dashboard that looked exactly what we were looking for. We used Morris.js to create line and bar charts.
 
  - Chart.js like Morris.js, Chart.js is a free open-source JavaScript library for data visualization, Chart.js was also found on the dashboard we decided to go with this plugin as it's beautifully constructed charts such as their animated pie chart is what struck out to us. 
+ 
+## Docker <a name="Docker"></a>
+
+-  Docker là một công cụ hỗ trợ xây dựng và triển khai các ứng dụng trên nền tảng các các containers.
+
+- Container được coi như một tiến trình trong Linux được cấu hình (CPU, RAM, threads, network,...), đây cũng là một môi trường dùng để đóng gói ứng dụng và các thành phần liên quan giúp người phát triển có thể dễ dàng triển khai thông qua các image.
+
+- Container image là các file nén (tar) được sắp xếp theo mô hình layer kèm với các metadata. Kiến trúc mỗi một layer là một file nén hỗ trợ cho việc tái sử dụng các layer này để xây dựng image một cách nhanh chóng và tốn ít tài nguyên hơn.
  
 # Cloning/Running the application <a name="clone"></a>
 To clone the application navigate to the directory you wish to have the project in once there, input the following command:
