@@ -21,6 +21,7 @@
     3.6 [Excel](#Excel)
 
     3.7 [Chart](#Chart)
+4. [Cloning](#clone)
  
 # Project Details <a name="ProjDetails"></a>
 
@@ -33,7 +34,26 @@
 | **Project Title** | Bar Restaurant Management |
 
 # Overview <a name="OverView"></a>
+- Thiết kế được một hệ thống để thực hiện các tính năng cơ bản của một ứng dụng quản lý nhà hàng:
 
+        + Xác thực người dùng
+
+        + Quản lý thông tin người dùng
+
+        + Đặt bàn
+
+        + Order món
+
+        + Thanh toán
+
+        + …
+
+
+- Cùng với đó áp dụng các công cụ khác nhau để hỗ trợ phát triển cũng như tạo điều kiện để tìm hiểu cách áp dụng chúng trong môi trường phát triển phần mềm:
+
+        + Docker, docker-compose: tự động hóa việc triển khai, tích hợp
+
+        + Swagger, postman: Định nghĩa các Restful API
 
 # Technologies <a name="Tech"></a>
 
@@ -76,5 +96,24 @@
 Morris.js lets the user create aesthetic charts in next to no time, it is made very simple using the public api for each chart, We decided to go with this as it was shown as a chart in the AdminLTE dashboard that looked exactly what we were looking for. We used Morris.js to create line and bar charts.
 
  - Chart.js like Morris.js, Chart.js is a free open-source JavaScript library for data visualization, Chart.js was also found on the dashboard we decided to go with this plugin as it's beautifully constructed charts such as their animated pie chart is what struck out to us. 
+ 
+# Cloning/Running the application <a name="clone"></a>
+To clone the application navigate to the directory you wish to have the project in once there, input the following command:
+```
+git clone https://github.com/letiencao/RestaurantManagement
+```
+Download and set up a Xampp local server.
+
+**Link:** https://www.apachefriends.org/index.html
+
+Insert the cloned project folder into the htdocs folder from Xampp.
+
+Import the database using:
+
+
+
+
+
+
 
  
