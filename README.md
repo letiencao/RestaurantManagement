@@ -140,4 +140,5 @@ Vào link sau để lấy database và import vào phpmyadmin cảu mình:
 Chạy project với localhost:RestaurantManagement-main
 
 Điền Tài Khoản : trung
+
 Mật Khẩu : 123456
